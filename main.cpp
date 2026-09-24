@@ -3,9 +3,9 @@
 int main()
 {
     stoplight sl;
-    sl.init(5, 2, 5);
 
-    sl.cycle();
+    sl.init(5, 2, 5);
+    sl.tick();
 
     return 0;
 }

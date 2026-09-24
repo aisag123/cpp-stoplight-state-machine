@@ -7,63 +7,34 @@ void stoplight::init(int greenDuration, int yellowDuration, int redDuration)
 {
     std::cout << "init \n";
 
-    setGreenDurration(greenDuration);
-    setYellowDurration(yellowDuration);
-    setRedDurration(redDuration);
+    greenDurration_ = greenDuration;
+    yellowDurration_ = yellowDuration;
+    redDurration_ = redDuration;
 
-    std::cout << "all durrations set ready to start cycle";
+    std::cout << "all durrations set ready to start tick \n";
 }
 
-void stoplight::setGreenDurration(int durration)
+void stoplight::tick()
 {
-    green_durr = durration;
-}
+    std::cout << "starting light tick \n";
 
-int stoplight::getGreenDurration() const
-{
-    return green_durr;
-}
+    using namespace std::chrono;
 
-void stoplight::setYellowDurration(int durration)
-{
-    yellow_durr = durration;
-}
-
-int stoplight::getYellowDurration() const
-{
-    return yellow_durr;
-}
-
-void stoplight::setRedDurration(int durration)
-{
-    red_durr = durration;
-}
-
-int stoplight::getRedDurration() const
-{
-    return red_durr;
-}
-
-void stoplight::cycle()
-{
-    std::cout << "starting light cycle \n";
-
-    const auto green = std::chrono::seconds(getGreenDurration());
-    const auto yellow = std::chrono::seconds(getYellowDurration());
-    const auto red = std::chrono::seconds(getRedDurration());
-
-    while (true)
+    switch (currentState_)
     {
-        std::cout << "light is green! \n";
-        std::this_thread::sleep_for(green);
+    case LightState::GREEN:
+        std::cout << "green active";
 
-        std::cout << "light is yellow! \n";
-        std::this_thread::sleep_for(yellow);
+        break;
 
-        std::cout << "light is red! \n";
-        std::this_thread::sleep_for(red);
+    case LightState::YELLOW:
+        std::cout << "yellow active";
+
+        break;
+
+    case LightState::RED:
+        std::cout << "red active";
+
+        break;
     }
-    // for (int i = 0; i < red; i++)
-    // {
-    // }
 }

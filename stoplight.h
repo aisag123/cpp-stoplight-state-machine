@@ -1,24 +1,25 @@
 #ifndef STOPLIGHT_H
 #define STOPLIGHT_H
+
+enum class LightState
+{
+    GREEN,
+    YELLOW,
+    RED
+};
+
 class stoplight
 {
 public:
     void init(int greenDuration, int yellowDuration, int redDuration);
-    void setGreenDurration(int durration);
-    int getGreenDurration() const;
 
-    void setYellowDurration(int durration);
-    int getYellowDurration() const;
-
-    void setRedDurration(int durration);
-    int getRedDurration() const;
-
-    void cycle();
+    void tick();
 
 private:
-    int green_durr;
-    int yellow_durr;
-    int red_durr;
+    LightState currentState_{LightState::GREEN};
+    int greenDurration_{0};
+    int yellowDurration_{0};
+    int redDurration_{0};
 };
 
 #endif // STOPLIGHT_H
