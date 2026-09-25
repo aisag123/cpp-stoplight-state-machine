@@ -1,69 +1,47 @@
+#include <string>
 #include "stoplight.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <ctime>
+#include <iomanip>
+#include <string>
 
 void stoplight::init(int greenDuration, int yellowDuration, int redDuration)
 {
     std::cout << "init \n";
 
-    setGreenDurration(greenDuration);
-    setYellowDurration(yellowDuration);
-    setRedDurration(redDuration);
+    greenDurration_ = greenDuration;
+    yellowDurration_ = yellowDuration;
+    redDurration_ = redDuration;
 
-    std::cout << "all durrations set ready to start cycle";
+    std::cout << "all durrations set ready to start tick \n";
 }
 
-void stoplight::setGreenDurration(int durration)
+void stoplight::log(const std::string &message)
 {
-    green_durr = durration;
+    const auto now = std::chrono::system_clock::now();
+    const std::time_t time = std::chrono::system_clock::to_time_t(now);
+
+    std::cout << "[" << time << "] " << message;
 }
 
-int stoplight::getGreenDurration() const
+void stoplight::tick()
 {
-    return green_durr;
-}
+    std::cout << "starting light tick \n";
 
-void stoplight::setYellowDurration(int durration)
-{
-    yellow_durr = durration;
-}
-
-int stoplight::getYellowDurration() const
-{
-    return yellow_durr;
-}
-
-void stoplight::setRedDurration(int durration)
-{
-    red_durr = durration;
-}
-
-int stoplight::getRedDurration() const
-{
-    return red_durr;
-}
-
-void stoplight::cycle()
-{
-    std::cout << "starting light cycle \n";
-
-    const auto green = std::chrono::seconds(getGreenDurration());
-    const auto yellow = std::chrono::seconds(getYellowDurration());
-    const auto red = std::chrono::seconds(getRedDurration());
-
-    while (true)
+    switch (currentState_)
     {
-        std::cout << "light is green! \n";
-        std::this_thread::sleep_for(green);
+    case LightState::GREEN:
+        log("green light");
+        break;
 
-        std::cout << "light is yellow! \n";
-        std::this_thread::sleep_for(yellow);
+    case LightState::YELLOW:
+        log("yellow light");
+        break;
 
-        std::cout << "light is red! \n";
-        std::this_thread::sleep_for(red);
+    case LightState::RED:
+        log("red light");
+        break;
     }
-    // for (int i = 0; i < red; i++)
-    // {
-    // }
 }
