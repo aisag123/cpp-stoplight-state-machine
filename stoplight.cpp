@@ -23,25 +23,29 @@ void stoplight::log(const std::string &message)
     const auto now = std::chrono::system_clock::now();
     const std::time_t time = std::chrono::system_clock::to_time_t(now);
 
-    std::cout << "[" << time << "] " << message;
+    std::cout << "[" << time << "] " << message << "\n";
 }
 
 void stoplight::tick()
 {
-    std::cout << "starting light tick \n";
-
     switch (currentState_)
     {
     case LightState::GREEN:
         log("green light");
+        std::this_thread::sleep_for(std::chrono::seconds(greenDurration_));
+        currentState_ = LightState::YELLOW;
         break;
 
     case LightState::YELLOW:
         log("yellow light");
+        std::this_thread::sleep_for(std::chrono::seconds(yellowDurration_));
+        currentState_ = LightState::RED;
         break;
 
     case LightState::RED:
         log("red light");
+        std::this_thread::sleep_for(std::chrono::seconds(redDurration_));
+        currentState_ = LightState::GREEN;
         break;
     }
 }
